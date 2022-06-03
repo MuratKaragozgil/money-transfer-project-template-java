@@ -1,0 +1,5 @@
+rootProject.name = 'money-transfer-project-template-java'
+include 'bank-service'
+include 'activity-lib'
+include 'bonus-service'
+
