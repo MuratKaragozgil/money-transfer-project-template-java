@@ -6,10 +6,10 @@ import io.temporal.activity.ActivityMethod;
 @ActivityInterface
 public interface AccountActivity {
 
-    @ActivityMethod
+    @ActivityMethod(name = "deposit")
     void deposit(String accountId, String referenceId, double amount);
 
-    @ActivityMethod
+    @ActivityMethod(name = "withdraw")
     void withdraw(String accountId, String referenceId, double amount);
 
 }

@@ -1,31 +1,29 @@
-package org.example;
+package moneytransferapp.worker;
 
 import io.temporal.client.WorkflowClient;
 import io.temporal.serviceclient.WorkflowServiceStubs;
-import io.temporal.worker.Worker;
 import io.temporal.worker.WorkerFactory;
-import org.example.activity.BonusActivityImpl;
+import moneytransferapp.workflow.MoneyTransferWorkflowImpl;
 
-import static org.example.constant.Constants.QUEUE_NAME_BONUS;
+import static org.example.constant.Constants.QUEUE_NAME;
 
-public class BonusWorker {
+public class WorkflowRegisterer {
 
     public static void main(String[] args) {
-
         // WorkflowServiceStubs is a gRPC stubs wrapper that talks to the local Docker instance of the Temporal server.
         WorkflowServiceStubs service = WorkflowServiceStubs.newLocalServiceStubs();
+
+        // WorkflowClient can be used to start, signal, query, cancel, and terminate Workflows.
         WorkflowClient client = WorkflowClient.newInstance(service);
 
-        // Worker factory is used to create Workers that poll specific Task Queues.
+        /**
+         * Register workflow from initiator.
+         */
         WorkerFactory factory = WorkerFactory.newInstance(client);
-        Worker worker = factory.newWorker(QUEUE_NAME_BONUS);
-
-        // Activities are stateless and thread safe so a shared instance is used.
-        worker.registerActivitiesImplementations(new BonusActivityImpl());
-
-        // Start listening to the Task Queue.
+        factory //
+            .newWorker(QUEUE_NAME) //
+            .registerWorkflowImplementationTypes(MoneyTransferWorkflowImpl.class); //
         factory.start();
     }
 
 }
-// @@@SNIPEND

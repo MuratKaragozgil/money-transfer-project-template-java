@@ -6,7 +6,7 @@ import io.temporal.activity.ActivityMethod;
 @ActivityInterface
 public interface BonusActivity {
 
-    @ActivityMethod
+    @ActivityMethod(name = "checkBonus")
     String checkBonus(String accountId);
 
 }
