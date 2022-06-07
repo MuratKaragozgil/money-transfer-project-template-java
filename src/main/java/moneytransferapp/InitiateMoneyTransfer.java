@@ -3,13 +3,11 @@ package moneytransferapp;
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;
 import io.temporal.serviceclient.WorkflowServiceStubs;
-import io.temporal.worker.WorkerFactory;
 import moneytransferapp.workflow.MoneyTransferWorkflow;
-import moneytransferapp.workflow.MoneyTransferWorkflowImpl;
 
 import java.util.UUID;
 
-import static org.example.constant.Constants.QUEUE_NAME;
+import static org.example.constant.Constants.QUEUE_NAME_BANK;
 
 public class InitiateMoneyTransfer {
 
@@ -26,7 +24,7 @@ public class InitiateMoneyTransfer {
          */
         WorkflowOptions options = WorkflowOptions //
             .newBuilder() //
-            .setTaskQueue(QUEUE_NAME) //
+            .setTaskQueue(QUEUE_NAME_BANK) //
             .build();
 
         String referenceId = UUID.randomUUID().toString();

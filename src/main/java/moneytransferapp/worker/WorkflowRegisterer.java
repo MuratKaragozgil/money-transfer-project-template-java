@@ -5,7 +5,7 @@ import io.temporal.serviceclient.WorkflowServiceStubs;
 import io.temporal.worker.WorkerFactory;
 import moneytransferapp.workflow.MoneyTransferWorkflowImpl;
 
-import static org.example.constant.Constants.QUEUE_NAME;
+import static org.example.constant.Constants.QUEUE_NAME_BANK;
 
 public class WorkflowRegisterer {
 
@@ -21,7 +21,7 @@ public class WorkflowRegisterer {
          */
         WorkerFactory factory = WorkerFactory.newInstance(client);
         factory //
-            .newWorker(QUEUE_NAME) //
+            .newWorker(QUEUE_NAME_BANK) //
             .registerWorkflowImplementationTypes(MoneyTransferWorkflowImpl.class); //
         factory.start();
     }

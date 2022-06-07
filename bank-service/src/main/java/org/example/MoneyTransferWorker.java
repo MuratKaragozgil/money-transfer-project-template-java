@@ -6,7 +6,7 @@ import io.temporal.worker.Worker;
 import io.temporal.worker.WorkerFactory;
 import org.example.activity.AccountActivityImpl;
 
-import static org.example.constant.Constants.QUEUE_NAME;
+import static org.example.constant.Constants.QUEUE_NAME_BANK;
 
 public class MoneyTransferWorker {
 
@@ -18,7 +18,7 @@ public class MoneyTransferWorker {
 
         // Worker factory is used to create Workers that poll specific Task Queues.
         WorkerFactory factory = WorkerFactory.newInstance(client);
-        Worker worker = factory.newWorker(QUEUE_NAME);
+        Worker worker = factory.newWorker(QUEUE_NAME_BANK);
 
         // Activities are stateless and thread safe so a shared instance is used.
         worker.registerActivitiesImplementations(new AccountActivityImpl());
