@@ -1,4 +1,4 @@
-package org.example;// @@@SNIPSTART money-transfer-project-template-java-activity-interface
+package org.example.activity;// @@@SNIPSTART money-transfer-project-template-java-activity-interface
 
 import io.temporal.activity.ActivityInterface;
 import io.temporal.activity.ActivityMethod;

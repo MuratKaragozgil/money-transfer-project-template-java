@@ -1,4 +1,6 @@
-package org.example;
+package org.example.activity;
+
+import org.example.activity.AccountActivity;
 
 // @@@SNIPSTART money-transfer-project-template-java-activity-implementation
 public class AccountActivityImpl implements AccountActivity {

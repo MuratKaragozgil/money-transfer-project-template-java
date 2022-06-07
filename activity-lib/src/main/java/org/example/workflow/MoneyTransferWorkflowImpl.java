@@ -1,17 +1,18 @@
-package org.example;
+package org.example.workflow;
 
 import io.temporal.activity.ActivityOptions;
 import io.temporal.common.RetryOptions;
 import io.temporal.workflow.Workflow;
+import org.example.activity.AccountActivity;
+import org.example.activity.BonusActivity;
 
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
+
+import static org.example.constant.Constants.QUEUE_NAME_BONUS;
 
 // @@@SNIPSTART money-transfer-project-template-java-workflow-implementation
 public class MoneyTransferWorkflowImpl implements MoneyTransferWorkflow {
 
-    private static final String WITHDRAW = "Withdraw";
     // RetryOptions specify how to automatically handle retries when Activities fail.
     private final RetryOptions retryoptions = RetryOptions.newBuilder()
         .setInitialInterval(Duration.ofSeconds(1))
@@ -31,24 +32,18 @@ public class MoneyTransferWorkflowImpl implements MoneyTransferWorkflow {
         .setStartToCloseTimeout(Duration.ofSeconds(5))
         // Optionally provide customized RetryOptions.
         // Temporal retries failures by default, this is simply an example.
-        .setTaskQueue("BONUS_CHECK_TASK_QUEUE").setRetryOptions(retryoptions).build();
+        .setTaskQueue(QUEUE_NAME_BONUS).setRetryOptions(retryoptions).build();
 
-    // ActivityStubs enable calls to methods as if the Activity object is local, but actually perform an RPC.
-    private final Map<String, ActivityOptions> perActivityMethodOptions = new HashMap<>() {{
-        put(WITHDRAW, ActivityOptions.newBuilder().setHeartbeatTimeout(Duration.ofSeconds(5)).build());
-    }};
-
-    private final AccountActivity account = Workflow.newActivityStub(AccountActivity.class, defaultActivityOptions, perActivityMethodOptions);
-    private final BonusActivity bonus = Workflow.newActivityStub(BonusActivity.class, bonusActivityOptions, perActivityMethodOptions);
+    private final AccountActivity account = Workflow.newActivityStub(AccountActivity.class, defaultActivityOptions);
+    private final BonusActivity bonus = Workflow.newActivityStub(BonusActivity.class, bonusActivityOptions);
 
     // The transfer method is the entry point to the Workflow.
     // Activity method executions can be orchestrated here or from within other Activity methods.
     @Override
-    public void transfer(String fromAccountId, String toAccountId, String referenceId, double amount) {
+    public String transfer(String fromAccountId, String toAccountId, String referenceId, double amount) {
         account.withdraw(fromAccountId, referenceId, amount);
         account.deposit(toAccountId, referenceId, amount);
-        bonus.checkBonus(toAccountId);
+        return bonus.checkBonus(toAccountId);
     }
 
 }
-// @@@SNIPEND

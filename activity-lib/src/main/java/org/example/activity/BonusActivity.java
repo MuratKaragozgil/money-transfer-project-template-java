@@ -1,4 +1,4 @@
-package org.example;
+package org.example.activity;
 
 import io.temporal.activity.ActivityInterface;
 import io.temporal.activity.ActivityMethod;
@@ -7,6 +7,6 @@ import io.temporal.activity.ActivityMethod;
 public interface BonusActivity {
 
     @ActivityMethod
-    void checkBonus(String accountId);
+    String checkBonus(String accountId);
 
 }

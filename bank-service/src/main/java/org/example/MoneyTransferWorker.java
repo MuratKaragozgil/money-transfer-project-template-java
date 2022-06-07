@@ -4,6 +4,10 @@ import io.temporal.client.WorkflowClient;
 import io.temporal.serviceclient.WorkflowServiceStubs;
 import io.temporal.worker.Worker;
 import io.temporal.worker.WorkerFactory;
+import org.example.activity.AccountActivityImpl;
+import org.example.workflow.MoneyTransferWorkflowImpl;
+
+import static org.example.constant.Constants.QUEUE_NAME;
 
 // @@@SNIPSTART money-transfer-project-template-java-worker
 public class MoneyTransferWorker {
@@ -15,7 +19,7 @@ public class MoneyTransferWorker {
         WorkflowClient client = WorkflowClient.newInstance(service);
         // Worker factory is used to create Workers that poll specific Task Queues.
         WorkerFactory factory = WorkerFactory.newInstance(client);
-        Worker worker = factory.newWorker("MONEY_TRANSFER_TASK_QUEUE");
+        Worker worker = factory.newWorker(QUEUE_NAME);
         // This Worker hosts both Workflow and Activity implementations.
         // Workflows are stateful so a type is needed to create instances.
         worker.registerWorkflowImplementationTypes(MoneyTransferWorkflowImpl.class);
@@ -24,5 +28,6 @@ public class MoneyTransferWorker {
         // Start listening to the Task Queue.
         factory.start();
     }
+
 }
 // @@@SNIPEND
